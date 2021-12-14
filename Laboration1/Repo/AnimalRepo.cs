@@ -54,56 +54,18 @@ namespace Labb1.Repo
         }
 
 
-
-        /*   
-         *   
-         *    public Animal UpdateAnimal(Animal animal, int id)
+        public Animal UpdateAnimal(Animal animal)
         {
-            throw new NotImplementedException();
-        }public Vinyl CreateVinyl(CreateVinylDTO createVinylDTO)        //(Vinyl vinyl)
-        {
-            Vinyl vinyl = new Vinyl();
-            vinyl.Created = DateTime.Now;
-            vinyl.Artist = createVinylDTO.Artist;
-            vinyl.Title = createVinylDTO.Title;
-
-            _context.Vinyls.Add(vinyl);
-            _context.SaveChanges();
-            return vinyl;
-        }
-
-      
-
-        public void DeleteVinyl(int id)
-        {
-            _context.Vinyls.Remove(GetByID(id));
-            _context.SaveChanges();
-        }
-
- 
-
-        public List<Vinyl> GetAll()
-        {
-            return _context.Vinyls.ToList();
-        }
-
-        public Vinyl GetByID(int id)
-        {
-            Vinyl vinyl = _context.Vinyls.Find(id);
-            return vinyl;
-        }
-
-        public Vinyl UpdateVinyl(Vinyl vinyl, int id)
-        {
-            Vinyl existingVinyl = _context.Vinyls.FirstOrDefault(x => x.Id == id);
-            if(existingVinyl != null)
+            Animal existingAnimal = _animals.FirstOrDefault(x => x.Id == animal.Id);
+            if(existingAnimal != null)
             {
-                existingVinyl.Title = vinyl.Title;
-                existingVinyl.Artist = vinyl.Artist;
+                existingAnimal.Animaltype = animal.Animaltype;
+                existingAnimal.Name = animal.Name;
+
             }
-            _context.SaveChanges();
-            return existingVinyl;
-        }*/
+
+            return existingAnimal;
+        }
 
         private List<Animal> PopulateAnimalData()
         {

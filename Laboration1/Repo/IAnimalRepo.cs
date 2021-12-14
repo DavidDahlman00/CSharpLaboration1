@@ -15,6 +15,6 @@ namespace Laboration1.Repo
 
         void DeleteAnimal(int id);
 
-       Animal UpdateAnimal(Animal animal, int id);
+       Animal UpdateAnimal(Animal animal);
     }
 }

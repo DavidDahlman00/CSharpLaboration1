@@ -82,11 +82,11 @@ namespace Laboration1.Controllers
             return NoContent();
         }
         
-        [HttpPut]
-        public Animal UpdateAnimal([FromBody] Animal animal, int id)
+        [HttpPut("")]
+        public Animal UpdateAnimal([FromBody] Animal animal)
         {
-            _repo.UpdateAnimal(animal, id);
-            return animal;
+           Animal updatedAnimal = _repo.UpdateAnimal(animal);
+            return updatedAnimal;
         }
 
         private AnimalDTO MapAnimalToAnimalDTO(Animal animal)
