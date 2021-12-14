@@ -71,27 +71,9 @@ namespace Laboration1.Controllers
                 nameof(GetAnimalByID),
                 new { id = animalDTO.Id },
                 animalDTO);
-             
-
-
-            /*Animal createdAnimal = _repo.CreateAnimal(createAnimalDTO);
-            return CreatedAtAction(
-                nameof(GetAnimalByID),
-                new { id = createdAnimal.Id },
-                createdAnimal);*/
-
         }
 
-        /*
-         public IActionResult CreateVinyl([FromBody]CreateVinylDTO createVinylDTO)
-        {
-            Vinyl createdVinyl = _repo.CreateVinyl(createVinylDTO);
-            return CreatedAtAction(
-                nameof(GetVinylByID),
-                new { id = createdVinyl.Id },
-                createdVinyl);
-            
-        }*/
+  
 
         [HttpDelete("{id}")]
         public IActionResult DeleteVinyl(int id)
@@ -99,13 +81,13 @@ namespace Laboration1.Controllers
             _repo.DeleteAnimal(id);
             return NoContent();
         }
-        /*
+        
         [HttpPut]
-        public Vinyl UpdateVinyl([FromBody] Vinyl vinyl, int id)
+        public Animal UpdateAnimal([FromBody] Animal animal, int id)
         {
-            _repo.UpdateVinyl(vinyl, id);
-            return vinyl;
-        }*/
+            _repo.UpdateAnimal(animal, id);
+            return animal;
+        }
 
         private AnimalDTO MapAnimalToAnimalDTO(Animal animal)
         {
