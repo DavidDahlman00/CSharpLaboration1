@@ -8,6 +8,21 @@ using Laboration1.Entities;
 using Laboration1.Repo;
 using Microsoft.AspNetCore.Mvc;
 namespace Laboration1.Controllers
+
+/*
+ Enviroment setup
+• dotnet tool install -g dotnet-ef
+• dotnet add package Pomelo.EntityFrameworkCore.MySql
+• dotnet add package Microsoft.EntityFrameworkCore.Design
+
+ MySql migration
+• dotnet ef migrations add Initial
+• dotnet ef database update
+• dotnet watch run
+*/
+
+
+
 {
     [ApiController]
     [Route("animal")]
@@ -76,16 +91,16 @@ namespace Laboration1.Controllers
   
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteVinyl(int id)
+        public IActionResult DeleteAnimal(int id)
         {
             _repo.DeleteAnimal(id);
             return NoContent();
         }
         
-        [HttpPut("")]
-        public Animal UpdateAnimal([FromBody] Animal animal)
+        [HttpPut("{id}")]
+        public Animal UpdateAnimal([FromBody] Animal animal, int id)
         {
-           Animal updatedAnimal = _repo.UpdateAnimal(animal);
+            Animal updatedAnimal = _repo.UpdateAnimal(animal, id);
             return updatedAnimal;
         }
 
