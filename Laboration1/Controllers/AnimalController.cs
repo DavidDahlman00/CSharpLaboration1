@@ -7,7 +7,7 @@ using Laboration1.DTOs;
 using Laboration1.Entities;
 using Laboration1.Repo;
 using Microsoft.AspNetCore.Mvc;
-namespace Laboration1.Controllers
+
 
 /*
  Enviroment setup
@@ -16,13 +16,14 @@ namespace Laboration1.Controllers
 • dotnet add package Microsoft.EntityFrameworkCore.Design
 
  MySql migration
-• dotnet ef migrations add Initial
+• dotnet ef migrations add XXXXXXX
 • dotnet ef database update
 • dotnet watch run
 */
 
 
 
+namespace Laboration1.Controllers
 {
     [ApiController]
     [Route("animal")]
@@ -42,17 +43,14 @@ namespace Laboration1.Controllers
         [Route("")]
         public IActionResult GetAnimals()
         {
-            var animals = _repo.GetAll();
-            var animals2 = animals.Select(v => new AnimalDTO
-            {
-                Id = v.Id,
-                Animaltype = v.Animaltype,
-                Name = v.Name
-            })
-                .OrderBy(x => x.Name);
+            var animals = _repo
+                .GetAll()
+                .ToList()
+                .MapToAnimalDTOs();
+ 
             return Ok(animals);
-            //List<Animal> animals = _repo.GetAll();
-            //return Ok(animals);
+
+
         }
 
 
@@ -64,14 +62,14 @@ namespace Laboration1.Controllers
         public IActionResult GetAnimalByID(int id)
         {
             Animal animal = _repo.GetByID(id);
-            if (animal is null) // animal == null
+            if (animal is null) 
             {
                 return NotFound("Could not find animal with ID " + id);
             }
 
-            AnimalDTO animalDTO = MapAnimalToAnimalDTO(animal);
+            AnimalDTO animalDTO = animal.MapToAnimalDTO();         
             return Ok(animalDTO);
-            //return _repo.GetByID(id);
+           ;
         }
 
         [HttpPost("")]
@@ -80,12 +78,16 @@ namespace Laboration1.Controllers
 
             
              Animal createdAnimal = _repo.CreateAnimal(createAnimalDTO);
-            AnimalDTO animalDTO = MapAnimalToAnimalDTO(createdAnimal);
+            //AnimalDTO animalDTO = MapAnimalToAnimalDTO(createdAnimal);
+
+            AnimalDTO animalSavedDTO = _repo
+                .GetByID(createdAnimal.Id)
+                .MapToAnimalDTO();
 
             return CreatedAtAction(
                 nameof(GetAnimalByID),
-                new { id = animalDTO.Id },
-                animalDTO);
+                new { id = animalSavedDTO.Id },
+                animalSavedDTO);
         }
 
   
@@ -98,20 +100,22 @@ namespace Laboration1.Controllers
         }
         
         [HttpPut("{id}")]
-        public Animal UpdateAnimal([FromBody] Animal animal, int id)
+        public IActionResult UpdateAnimal([FromBody] Animal animal, int id)
         {
             Animal updatedAnimal = _repo.UpdateAnimal(animal, id);
-            return updatedAnimal;
-        }
 
+            AnimalDTO animalDTO = _repo.GetByID(id).MapToAnimalDTO();
+            return Ok(animalDTO);
+        }
+        /*
         private AnimalDTO MapAnimalToAnimalDTO(Animal animal)
         {
             return new AnimalDTO
             {
                 Id = animal.Id,
-                Animaltype = animal.Animaltype,
+                AnimaltypeID = animal.AnimaltypeID,
                 Name = animal.Name,
             };
-        }
+        }*/
     }
 }
