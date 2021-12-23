@@ -22,3 +22,5 @@ Delete: med 204 ok status kod
 
 Get: med 404 not found och fel meddelade så animal/9 inte finns
 ![Screenshot 2021-12-16 at 12 33 07](https://user-images.githubusercontent.com/59660604/146364720-01cff2b9-3bb2-4766-aaa1-e7af091c7598.png)
+
+![Screenshot 2021-12-23 at 11 36 21](https://user-images.githubusercontent.com/58550693/147228503-56cc49cd-e3cb-43ca-a059-5f7e2468eeb9.png)
