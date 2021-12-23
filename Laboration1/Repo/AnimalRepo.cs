@@ -6,29 +6,33 @@ using System.Threading.Tasks;
 using Laboration1.DTOs;
 using Laboration1.Entities;
 using Laboration1.Repo;
+using Microsoft.EntityFrameworkCore;
 
 namespace Labb1.Repo
 {
     public class AnimalRepo : IAnimalRepo
     {
-        //private List<Animal> _animals;
+    
 
         private ApplicationContext _context;
 
         public AnimalRepo(ApplicationContext context)
         {
-            // _animals = PopulateAnimalData();
+            
             _context = context;
           
         }
 
-        public Animal CreateAnimal(CreateAnimalDTO createAnimalDTO)
+        public Animal CreateAnimal(CreateAnimalDTO createdAnimalDTO)
         {
             Animal animal = new Animal();
-              animal.Animaltype = createAnimalDTO.Animaltype;
-              animal.Name = createAnimalDTO.Name;
+
+              animal.AnimaltypeID = createdAnimalDTO.AnimalTypeID;
+              animal.Name = createdAnimalDTO.Name;
+
               _context.Animals.Add(animal);
               _context.SaveChanges();
+
               return animal;
            
 
@@ -43,14 +47,20 @@ namespace Labb1.Repo
 
         public List<Animal> GetAll()
         {
-            return _context.Animals.ToList();
+            return _context
+                .Animals
+                .Include(v => v.AnimalType)
+                .ToList();
         }
 
 
 
         public Animal GetByID(int id)
         {
-            Animal animal = _context.Animals.Find(id);
+            Animal animal = _context
+                .Animals
+                .Include(v => v.AnimalType)
+                .SingleOrDefault(x => x.Id == id);
             return animal;
 
 
@@ -63,9 +73,9 @@ namespace Labb1.Repo
             Animal existingAnimal = _context.Animals.FirstOrDefault(x => x.Id == id);
             if(existingAnimal != null)
             {
-                existingAnimal.Animaltype = animal.Animaltype;
+                
                 existingAnimal.Name = animal.Name;
-
+                existingAnimal.AnimalType = animal.AnimalType;
             }
             _context.SaveChanges();
 
